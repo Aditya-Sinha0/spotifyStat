@@ -6,10 +6,25 @@
 </head>
 <body>
 <ol>
-    <li> Top songs in past 4 weeks</li>
-    {% for song in results['items'] %}
+    <h3> Top songs in past 4 weeks</h3>
+    {% for song in short_term_tracks['items'] %}
     <li>{{ song['name'] }}</li>
     {% endfor %}
 </ol>
+
+<ol>
+    <h3> Top songs in past 6 months</h3>
+    {% for song in medium_term_tracks['items'] %}
+    <li>{{ song['name'] }}</li>
+    {% endfor %}
+</ol>
+
+<ol>
+    <h3> Top songs of all time</h3>
+    {% for song in long_term_tracks['items'] %}
+    <li>{{ song['name'] }}</li>
+    {% endfor %}
+</ol>
+
 </body>
 </html>

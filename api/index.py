@@ -21,6 +21,7 @@ def callfrom():
 @app.route('/login', methods=['GET'])
 def login():
     code = request.args['code']
+
     url = 'https://accounts.spotify.com/api/token'
     payload = {
         'grant_type' : "authorization_code",
@@ -31,9 +32,9 @@ def login():
     }
     response = requests.request("POST", url, data=payload)
     response = response.json()
-
     refresh_token = response['refresh_token']
     access_token = response['access_token']
+
     url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10&offset=0"
     payload = {}
     headers = {
@@ -43,9 +44,29 @@ def login():
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
-    response_json = response.json()
+    short_term_tracks = response.json()
 
-    return render_template('name.html', results=response_json)
+    url = "https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    medium_term_tracks = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    long_term_tracks = response.json()
+
+    return render_template('name.html', short_term_tracks = short_term_tracks, medium_term_tracks = medium_term_tracks, long_term_tracks = long_term_tracks)
 
 #@app.route('/dashboard')
 
