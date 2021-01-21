@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ol>
+    {% for song in results['items'] %}
+    <li>{{ song['name'] }}</li>
+    {% endfor %}
+</ol>
+</body>
+</html>
