@@ -15,7 +15,7 @@ def index():
 
 @app.route('/callfrom')
 def callfrom():
-    return redirect(f'https://accounts.spotify.com/authorize?client_id=2387ae6eda67486599124f3f62289867&redirect_uri={HOST_NAME}&scope=user-top-read%20user-library-read&response_type=code')
+    return redirect(f'https://accounts.spotify.com/authorize?client_id=2387ae6eda67486599124f3f62289867&redirect_uri=http://{HOST_NAME}/login&scope=user-top-read%20user-library-read&response_type=code')
 
 
 @app.route('/login', methods=['GET'])
