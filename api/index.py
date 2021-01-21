@@ -66,7 +66,39 @@ def login():
     response = requests.request("GET", url, headers=headers, data=payload)
     long_term_tracks = response.json()
 
-    return render_template('name.html', short_term_tracks = short_term_tracks, medium_term_tracks = medium_term_tracks, long_term_tracks = long_term_tracks)
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    short_term_artists = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    medium_term_artists = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    long_term_artists = response.json()
+
+    return render_template('name.html', short_term_tracks = short_term_tracks, medium_term_tracks = medium_term_tracks, long_term_tracks = long_term_tracks,
+                           short_term_artists = short_term_artists, medium_term_artists = medium_term_artists, long_term_artists = long_term_artists)
 
 #@app.route('/dashboard')
 

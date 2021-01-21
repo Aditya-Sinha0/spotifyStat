@@ -26,5 +26,26 @@
     {% endfor %}
 </ol>
 
+<ol>
+    <h3> Top artists in past 4 weeks</h3>
+    {% for artist in short_term_artists['items'] %}
+    <li>{{ artist['name'] }}</li>
+    {% endfor %}
+</ol>
+
+<ol>
+    <h3> Top artists in past 6 months</h3>
+    {% for artist in medium_term_artists['items'] %}
+    <li>{{ artist['name'] }}</li>
+    {% endfor %}
+</ol>
+
+<ol>
+    <h3> Top artists of all time</h3>
+    {% for artist in long_term_artists['items'] %}
+    <li>{{ artist['name'] }}</li>
+    {% endfor %}
+</ol>
+
 </body>
 </html>
