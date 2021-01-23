@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect
-import requests
 import os
+
+import requests
+from flask import Flask, render_template, request, redirect
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
@@ -13,9 +14,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
 @app.route('/callfrom')
 def callfrom():
-    return redirect(f'https://accounts.spotify.com/authorize?client_id=2387ae6eda67486599124f3f62289867&redirect_uri=http://{HOST_NAME}/login&scope=user-top-read%20user-library-read&response_type=code')
+    return redirect(
+        f'https://accounts.spotify.com/authorize?client_id=2387ae6eda67486599124f3f62289867&redirect_uri=http://{HOST_NAME}/login&scope=user-top-read%20user-library-read&response_type=code')
 
 
 @app.route('/login', methods=['GET'])
@@ -24,11 +27,11 @@ def login():
 
     url = 'https://accounts.spotify.com/api/token'
     payload = {
-        'grant_type' : "authorization_code",
-        'code' : code,
-        'redirect_uri' : f'http://{HOST_NAME}/login',
-        'client_id' : CLIENT_ID,
-        'client_secret' : CLIENT_SECRET
+        'grant_type': "authorization_code",
+        'code': code,
+        'redirect_uri': f'http://{HOST_NAME}/login',
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET
     }
     response = requests.request("POST", url, data=payload)
     response = response.json()
@@ -66,7 +69,6 @@ def login():
     response = requests.request("GET", url, headers=headers, data=payload)
     long_term_tracks = response.json()
 
-
     url = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10&offset=0"
     payload = {}
     headers = {
@@ -97,10 +99,12 @@ def login():
     response = requests.request("GET", url, headers=headers, data=payload)
     long_term_artists = response.json()
 
-    return render_template('name.html', short_term_tracks = short_term_tracks, medium_term_tracks = medium_term_tracks, long_term_tracks = long_term_tracks,
-                           short_term_artists = short_term_artists, medium_term_artists = medium_term_artists, long_term_artists = long_term_artists)
+    return render_template('name.html', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
+                           long_term_tracks=long_term_tracks, short_term_artists=short_term_artists,
+                           medium_term_artists=medium_term_artists, long_term_artists=long_term_artists)
 
-#@app.route('/dashboard')
+
+# @app.route('/dashboard')
 
 
 if __name__ == "__main__":
