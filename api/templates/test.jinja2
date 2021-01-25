@@ -12,8 +12,6 @@
     <title>Spotify stats</title>
 </head>
 <body>
-
-
 <!---------------------------------------------------------ACCORDION------------------------------------------------------------------------------------->
 <div class="accordion" id="accordionExample">
     <div class="accordion-item">
@@ -28,13 +26,10 @@
             <div class="accordion-body">
                 <ol>
                     {% for song in short_term_tracks['items'] %}
-                    <li>
-                        {% if song['images'] %}
-                        AAAAAAAAA
-                        {{song['image']['url']}}
-                        {%endif%}
-                        BBBBBBBBBB
-                        {{ song['name']}} - {{song['artists'][0]['name']}}</li>
+                        <li>
+                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            {{ song['name'] }} - {{ song['artists'][0]['name'] }}
+                        </li>
                     {% endfor %}
                 </ol>
             </div>
@@ -52,7 +47,10 @@
             <div class="accordion-body">
                 <ol>
                     {% for song in medium_term_tracks['items'] %}
-                    <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
+                        <li>
+                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            {{ song['name'] }} - {{ song['artists'][0]['name'] }}
+                        </li>
                     {% endfor %}
                 </ol>
             </div>
@@ -70,7 +68,10 @@
             <div class="accordion-body">
                 <ol>
                     {% for song in long_term_tracks['items'] %}
-                    <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
+                        <li>
+                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            {{ song['name'] }} - {{ song['artists'][0]['name'] }}
+                        </li>
                     {% endfor %}
                 </ol>
             </div>
@@ -88,8 +89,11 @@
             <div class="accordion-body">
                 <ol>
                     {% for artist in short_term_artists['items'] %}
-                    <li>{{ artist['name']}}</li>
-                    {%- endfor -%}
+                        <li>
+                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            {{ artist['name'] }}
+                        </li>
+                    {% endfor %}
                 </ol>
             </div>
         </div>
@@ -106,7 +110,10 @@
             <div class="accordion-body">
                 <ol>
                     {% for artist in medium_term_artists['items'] %}
-                    <li>{{ artist['name']}}</li>
+                        <li>
+                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            {{ artist['name'] }}
+                        </li>
                     {% endfor %}
                 </ol>
             </div>
@@ -124,7 +131,10 @@
             <div class="accordion-body">
                 <ol>
                     {% for artist in long_term_artists['items'] %}
-                    <li>{{ artist['name']}}</li>
+                        <li>
+                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            {{ artist['name'] }}
+                        </li>
                     {% endfor %}
                 </ol>
             </div>
