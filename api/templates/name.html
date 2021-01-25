@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
     <title>Title</title>
 </head>
 <body>
@@ -10,7 +9,7 @@
     <h3> Top songs in past 4 weeks</h3>
     {% for song in short_term_tracks['items'] %}
     <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-<!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
     {% endfor %}
 </ol>
 
@@ -18,7 +17,7 @@
     <h3> Top songs in past 6 months</h3>
     {% for song in medium_term_tracks['items'] %}
     <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-<!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
     {% endfor %}
 </ol>
 
@@ -26,7 +25,7 @@
     <h3> Top songs of all time</h3>
     {% for song in long_term_tracks['items'] %}
     <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-<!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
     {% endfor %}
 </ol>
 
