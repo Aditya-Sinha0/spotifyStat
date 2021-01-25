@@ -8,45 +8,42 @@
 <ol>
     <h3> Top songs in past 4 weeks</h3>
     {% for song in short_term_tracks['items'] %}
-    <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+        <li>{{ song['name'] }} - {{ song['artists'][0]['name'] }}</li>
     {% endfor %}
 </ol>
 
 <ol>
     <h3> Top songs in past 6 months</h3>
     {% for song in medium_term_tracks['items'] %}
-    <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+        <li>{{ song['name'] }} - {{ song['artists'][0]['name'] }}</li>
     {% endfor %}
 </ol>
 
 <ol>
     <h3> Top songs of all time</h3>
     {% for song in long_term_tracks['items'] %}
-    <li>{{ song['name']}} - {{song['artists'][0]['name']}}</li>
-    <!--        {% for artist in song['artists'] %} {{artist['name']}} {% endfor %} </li>-->
+        <li>{{ song['name'] }} - {{ song['artists'][0]['name'] }}</li>
     {% endfor %}
 </ol>
 
 <ol>
     <h3> Top artists in past 4 weeks</h3>
     {% for artist in short_term_artists['items'] %}
-    <li>{{ artist['name']}}</li>
+        <li>{{ artist['name'] }}</li>
     {% endfor %}
 </ol>
 
 <ol>
     <h3> Top artists in past 6 months</h3>
     {% for artist in medium_term_artists['items'] %}
-    <li>{{ artist['name']}}</li>
+        <li>{{ artist['name'] }}</li>
     {% endfor %}
 </ol>
 
 <ol>
     <h3> Top artists of all time</h3>
     {% for artist in long_term_artists['items'] %}
-    <li>{{ artist['name']}}</li>
+        <li>{{ artist['name'] }}</li>
     {% endfor %}
 </ol>
 
