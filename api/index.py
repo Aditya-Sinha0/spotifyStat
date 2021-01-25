@@ -114,7 +114,6 @@ def dashboard():
 
     print(short_term_artists)
     # return render_template('test.html')
-    print(short_term_tracks)
     return render_template('name.jinja2', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
                            long_term_tracks=long_term_tracks, short_term_artists=short_term_artists,
                            medium_term_artists=medium_term_artists, long_term_artists=long_term_artists)
