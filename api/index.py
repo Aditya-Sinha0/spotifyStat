@@ -1,17 +1,25 @@
 import os
 import requests
-from flask import Flask, render_template, request, redirect, make_response
+from helpers import *
+from flask import Flask, render_template, request, redirect, make_response, session, url_for
+from flask_pymongo import PyMongo
+
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 HOST_NAME = os.environ.get('HOST_NAME')
+APP_SECRET_KEY = os.environ.get('APP_SECRET_KEY')
 
 app = Flask(__name__)
+app.secret_key = APP_SECRET_KEY
+#pyMongo
+app.config["MONGO_URI"] = "mongodb://localhost:27017/spotifyStatDB"
+mongo = PyMongo(app)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('login-screen.html')
 
 
 @app.route('/callfrom')
@@ -59,7 +67,6 @@ def dashboard():
         'Authorization': f'Bearer {access_token}'
     }
 
-
     response = requests.request("GET", url, headers=headers)
     short_term_tracks = response.json()
 
@@ -88,11 +95,84 @@ def dashboard():
     response = requests.request("GET", url, headers=headers)
     long_term_artists = response.json()
 
-    # return render_template('test.jinja2')
-    return render_template('test.jinja2', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
+    return render_template('dashboard-stats.jinja2', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
                            long_term_tracks=long_term_tracks, short_term_artists=short_term_artists,
                            medium_term_artists=medium_term_artists, long_term_artists=long_term_artists)
 
+
+@app.route('/rawtext_scale', methods=['GET', 'POST'])
+def rawtext_scale():
+
+    access_token = request.cookies.get('access_token')
+    if not access_token:
+        return redirect('/login')
+
+    url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+    BASE_URL = "https://api.spotify.com/v1/me/top"
+
+    response = requests.request("GET", url, headers=headers)
+    short_term_tracks = response.json()
+
+    url = f"{BASE_URL}/tracks?time_range=medium_term&limit=10&offset=0"
+
+    response = requests.request("GET", url, headers=headers)
+    medium_term_tracks = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=10&offset=0"
+
+    response = requests.request("GET", url, headers=headers)
+    long_term_tracks = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10&offset=0"
+
+    response = requests.request("GET", url, headers=headers)
+    short_term_artists = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=10&offset=0"
+
+    response = requests.request("GET", url, headers=headers)
+    medium_term_artists = response.json()
+
+    url = "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=10&offset=0"
+
+    response = requests.request("GET", url, headers=headers)
+    long_term_artists = response.json()
+
+    if not short_term_tracks:
+        return redirect(url_for('login'))
+
+    return render_template('raw_text_output.jinja2', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
+                           long_term_tracks=long_term_tracks, short_term_artists=short_term_artists,
+                           medium_term_artists=medium_term_artists, long_term_artists=long_term_artists)
+
+@app.route('/recent_listening_analysis')
+def recent_listening_analysis():
+
+    access_token = request.cookies.get('access_token')
+    if not access_token:
+        return redirect('/login')
+
+    url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50&offset=0"
+    payload = {}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+    }
+
+    response = requests.request("GET", url, headers=headers)
+    short_track_ids = pullIds(response.json())
+
+    recent_audio_features = getPlaylistStatsJson(short_track_ids, access_token)
+    average_track_features = {}
+
+    return recent_audio_features
 
 if __name__ == "__main__":
     app.run(debug=True)
