@@ -18,7 +18,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-    return render_template('login-screen.html')
+    return render_template('login-screen.jinja2')
 
 
 @app.route('/callfrom')
@@ -66,30 +66,32 @@ def dashboard():
         'Authorization': f'Bearer {access_token}'
     }
 
+    numPulls = 15;
+
     response = requests.request("GET", url, headers=headers)
     short_term_tracks = response.json()
 
-    url = "https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10&offset=0"
+    url = f'https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit={numPulls}&offset=0'
 
     response = requests.request("GET", url, headers=headers)
     medium_term_tracks = response.json()
 
-    url = "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=10&offset=0"
+    url = f'https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit={numPulls}&offset=0'
 
     response = requests.request("GET", url, headers=headers)
     long_term_tracks = response.json()
 
-    url = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10&offset=0"
+    url = f'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit={numPulls}&offset=0'
 
     response = requests.request("GET", url, headers=headers)
     short_term_artists = response.json()
 
-    url = "https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=10&offset=0"
+    url = f'https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit={numPulls}&offset=0'
 
     response = requests.request("GET", url, headers=headers)
     medium_term_artists = response.json()
 
-    url = "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=10&offset=0"
+    url = f'https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit={numPulls}&offset=0'
 
     response = requests.request("GET", url, headers=headers)
     long_term_artists = response.json()
@@ -169,9 +171,8 @@ def recent_listening_analysis():
     short_track_ids = pullIds(response.json())
 
     recent_audio_features = getPlaylistStatsJson(short_track_ids, access_token)
-    average_track_features = {}
 
-    return recent_audio_features
+    return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
 
 if __name__ == "__main__":
     app.run(debug=True)
