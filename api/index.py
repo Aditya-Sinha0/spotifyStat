@@ -12,8 +12,8 @@ APP_SECRET_KEY = os.environ.get('APP_SECRET_KEY')
 app = Flask(__name__)
 app.secret_key = APP_SECRET_KEY
 #pyMongo
-app.config["MONGO_URI"] = "mongodb://localhost:27017/spotifyStatDB"
-mongo = PyMongo(app)
+#app.config["MONGO_URI"] = "mongodb://localhost:27017/spotifyStatDB"
+#mongo = PyMongo(app)
 
 
 @app.route('/')
@@ -45,7 +45,8 @@ def login():
     response = requests.request("POST", url, data=payload)
     response = response.json()
 
-    refresh_token = response['refresh_token']
+    if response['refresh_token']:
+        refresh_token = response['refresh_token']
     access_token = response['access_token']
 
     resp = make_response(redirect('/dashboard'))
@@ -173,7 +174,7 @@ def recent_listening_analysis():
 
     recent_audio_features = getPlaylistStatsJson(short_track_ids, access_token)
 
-   # return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
+    return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
 
 if __name__ == "__main__":
     app.run(debug=True)
