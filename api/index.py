@@ -177,6 +177,11 @@ def recent_listening_analysis():
     return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
 
 
+@app.route('/test')
+def test():
+    playlist_url = 'https://open.spotify.com/playlist/2JWnQ99Y5FQhZF72wYVMtH?si=VnmRWUdiTp2lF0k4N2B8rg'
+
+    return 'tomato'
 
 if __name__ == "__main__":
     app.run(debug=True)
