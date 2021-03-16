@@ -24,7 +24,7 @@ def index():
 @app.route('/callfrom')
 def callfrom():
     return redirect(
-        f'https://accounts.spotify.com/authorize?client_id=2387ae6eda67486599124f3f62289867&redirect_uri=http://{HOST_NAME}/login&scope=user-top-read%20user-library-read&response_type=code')
+        f'https://accounts.spotify.com/authorize?client_id={CLIENT_ID}&redirect_uri=http://{HOST_NAME}/login&scope=user-top-read%20user-library-read&response_type=code')
 
 
 @app.route('/login', methods=['GET'])
@@ -44,6 +44,7 @@ def login():
     }
     response = requests.request("POST", url, data=payload)
     response = response.json()
+
     refresh_token = response['refresh_token']
     access_token = response['access_token']
 
@@ -172,7 +173,7 @@ def recent_listening_analysis():
 
     recent_audio_features = getPlaylistStatsJson(short_track_ids, access_token)
 
-    return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
+   # return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
 
 if __name__ == "__main__":
     app.run(debug=True)
