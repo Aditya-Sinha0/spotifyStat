@@ -11,7 +11,14 @@
 
     <title>Spotify stats</title>
 </head>
+<style>
+    img{
+        margin: 2px;
+        width: 50px;
+        height: 50px;
+    }
 
+</style>
 <body>
 {#<style type="text/css">#}
 {#    body {#}
@@ -76,7 +83,7 @@
                 <ol>
                     {% for song in short_term_tracks['items'] %}
                         <li>
-                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            <img src={{ song['album']['images'][2]['url'] }} height=""/>
                             {{ song['name'] }} - {{ song['artists'][0]['name'] }}
                         </li>
                     {% endfor %}
@@ -97,7 +104,7 @@
                 <ol>
                     {% for song in medium_term_tracks['items'] %}
                         <li>
-                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            <img src={{ song['album']['images'][2]['url'] }} height=""/>
                             {{ song['name'] }} - {{ song['artists'][0]['name'] }}
                         </li>
                     {% endfor %}
@@ -118,7 +125,7 @@
                 <ol>
                     {% for song in long_term_tracks['items'] %}
                         <li>
-                            <img src={{ song['album']['images'][2]['url'] }} width="42" height="42"/>
+                            <img src={{ song['album']['images'][2]['url'] }} height=""/>
                             {{ song['name'] }} - {{ song['artists'][0]['name'] }}
                         </li>
                     {% endfor %}
@@ -139,7 +146,7 @@
                 <ol>
                     {% for artist in short_term_artists['items'] %}
                         <li>
-                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            <img style="margin: 2px" src={{ artist['images'][2]['url'] }} height=""/>
                             {{ artist['name'] }}
                         </li>
                     {% endfor %}
@@ -160,7 +167,7 @@
                 <ol>
                     {% for artist in medium_term_artists['items'] %}
                         <li>
-                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            <img style="margin: 2px" src={{ artist['images'][2]['url'] }} height=""/>
                             {{ artist['name'] }}
                         </li>
                     {% endfor %}
@@ -181,7 +188,7 @@
                 <ol>
                     {% for artist in long_term_artists['items'] %}
                         <li>
-                            <img src={{ artist['images'][2]['url'] }} width="42" height="42"/>
+                            <img src={{ artist['images'][2]['url'] }} height=""/>
                             {{ artist['name'] }}
                         </li>
                     {% endfor %}
