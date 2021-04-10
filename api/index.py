@@ -1,7 +1,7 @@
 import os
 from api.utils.helpers import *
 from flask import Flask, render_template, request, redirect, make_response, url_for
-from flask_pymongo import PyMongo
+import requests
 
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
@@ -11,10 +11,6 @@ APP_SECRET_KEY = os.environ.get('APP_SECRET_KEY')
 
 app = Flask(__name__)
 app.secret_key = APP_SECRET_KEY
-#pyMongo
-#app.config["MONGO_URI"] = "mongodb://localhost:27017/spotifyStatDB"
-#mongo = PyMongo(app)
-
 
 @app.route('/')
 def index():
@@ -177,11 +173,28 @@ def recent_listening_analysis():
     return render_template('recent_listening_analysis.jinja2', recent_audio_features=recent_audio_features)
 
 
-@app.route('/test')
+@app.route('/test', methods=['GET', 'POST'])
 def test():
+
     playlist_url = 'https://open.spotify.com/playlist/2JWnQ99Y5FQhZF72wYVMtH?si=VnmRWUdiTp2lF0k4N2B8rg'
 
-    return 'tomato'
+    access_token = request.cookies.get('access_token')
+    if not access_token:
+        return redirect('/login')
+
+    url = "https://api.spotify.com/v1/playlists/2JWnQ99Y5FQhZF72wYVMtH/tracks"
+
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+        'playlist_id': playlist_url
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    return response.json()
 
 if __name__ == "__main__":
     app.run(debug=True)
