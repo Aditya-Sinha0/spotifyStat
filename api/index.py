@@ -64,7 +64,7 @@ def dashboard():
         'Authorization': f'Bearer {access_token}'
     }
 
-    numPulls = 15;
+    numPulls = 15
 
     response = requests.request("GET", url, headers=headers)
     short_term_tracks = response.json()
@@ -93,6 +93,9 @@ def dashboard():
 
     response = requests.request("GET", url, headers=headers)
     long_term_artists = response.json()
+
+
+    print(short_term_tracks)
 
     return render_template('dashboard-stats.jinja2', short_term_tracks=short_term_tracks, medium_term_tracks=medium_term_tracks,
                            long_term_tracks=long_term_tracks, short_term_artists=short_term_artists,
